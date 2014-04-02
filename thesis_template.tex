@@ -1,0 +1,478 @@
+%% thesis.tex
+%%
+%% this file, mythesis.tex, is the main file of a fictitious
+%% Penn State Ph D thesis 
+%%
+%% 
+%% this material can be used as a template to prepare your own Ph D thesis
+%%
+%% this file was created Sept 1995 by Stephen G. Simpson,
+%% simpson@math.psu.edu
+%%
+%% revised November 1996, S. Simpson
+%% revised 2002, Sarah Gallager (to allow deluxetables)
+%% modified a little more by Michele Stark (2004)
+%% modified to use the new psuthesis.cls (Mar 2005) with a signature 
+%%   page and a committee page
+%%   
+%% modified again by Sonny Harman to reflect both MS and PhD theses
+
+\documentclass[11pt]{psuthesis2side}
+
+%% optional packages, in case you want AMS math macros and AMS symbols
+\usepackage{amsmath,amssymb}
+%% allows bibtex, \citet{}, \citep{} referencing:
+\usepackage[square]{natbib}
+\usepackage{lipsum}
+%%Comment out the above package when you add your own chapters. Unless you want Lorem Ipsum.
+%\usepackage[table]{xcolor}
+%% I truthfully don't know what the following is for, but I never used it:
+%\citestyle{aa}
+%% optional package, in case you want PostScript graphics:
+%\usepackage{psfig,graphics} 
+%% the following allows you to use the AAS deluxetable environment:
+%\usepackage{deluxetable}
+%% Use the following if you have tables that are longer than a single page::
+%\usepackage{longtable}
+%% Use the following if you have (non-deluxetables, i.e., longtables) that
+%% you need to display landscape oriented:
+%\usepackage{lscape}
+
+%% for a less-than-final version of the thesis, this command
+%% places "DRAFT: <date> AT <time>" at the top of each page...
+%\thesisdraft    
+%% (comment this out for the final version)
+
+%% you can speed things up by compiling only one chapter at a time
+%\includeonly{somechapter}
+%\includeonly{someotherchapter}
+%\includeonly{yetanotherchapter}
+%\includeonly{Ithinkyougettheideachapter}
+%\includeonly{conclusions}
+%% (comment this out for the final version)
+
+%% Fix the text citations so that there is no comma between the authors and 
+%% year.  This will help contain the furious Brandt red pen.
+%\bibpunct{(}{)}{;}{a}{}{,}
+\bibpunct{[}{]}{;}{a}{,}{,}
+
+\renewcommand{\thesubsubsection}{(\roman{subsubsection})}
+
+
+% usage - \mark{myfootnote}{This is my footnote} and 
+% \recall{myfootnote}
+
+%this defines where your images for the build are stored.
+%\graphicspath{{images/}}
+
+%% Change the fonts back to something reasonable.
+%% Note: scriptsize is typically smaller than footnotesize.
+%\renewcommand{\scriptsize{\@setfontsize\scriptsize\@ixpt{9pt}}
+%\renewcommand{\footnotesize{\@setfontsize\scriptsize\@xpt{10pt}}
+
+%%\thesisdraft
+%% Uncomment the above line to generate a copy of the thesis that has the phrase:
+%%  "Draft: <current date> at <current time>" to be printed in the head of each page.
+
+%%
+%% These are all the definitions that I've used throughout my thesis.
+%\input{/enter/path/to/your/definitions}
+
+%% This is just to set your degree. Set the toggle within the document (about 20 lines below).
+\newtoggle{masters}
+
+
+\begin{document}
+
+%%Comment this out for the final thesis:
+
+%%
+
+%% at the beginning of the thesis we have a title page, a signature
+%% page, and an abstract
+
+\author{Name here}
+
+
+\title{\uppercase {Title of your \\
+	Dissertation }}
+\dept{College of Earth and Mineral Sciences}
+\major{Geosciences}
+
+%% Just comment out the statement that isn't true -- if you're getting your MS, then 
+%\toggletrue{masters}
+%otherwise, uncomment this to switch to PhD mode.
+\togglefalse{masters}
+
+\submitdate{Month 20XX}
+
+\copyrightyear{20XX}
+
+%
+%\begin{singlespace}
+
+\readerone{Advisor \\
+         \prof{Geosciences} \\
+         \adviser \\
+         %\chair
+}
+
+\readertwo{Committee Member\\
+           \prof{Geosciences}
+}
+
+\readerthree{Committee Member\\
+             \prof{Geosciences}
+}
+
+\readerfour{Administrator or Dept. Head  \\
+	  \prof{Geosciences}
+} 
+%             Associate \head{Graduate Programs}}
+%
+%\end{singlespace}
+%\readerfive{Evan Pugh Prof.\ Member4 \\
+%             Evan Pugh \prof{Astronomy and Astrophysics}}
+%
+%\readersix{Assistant Prof.\ Member5 \\
+%             \assistprof{Astronomy and Astrophysics}}
+%
+%\readerseven{Lee R. Kump \\
+%             \prof{Geosciences}\\
+%             \head{Geosciences}}
+
+%%   Key to titles:
+%% Associate Professor: \asocprof{of what}
+%% Assistant Professor: \assistprof{of what}
+%% Full Professor: \prof{of what}
+%% also Dept. Head: \head{of what}
+%% You can also do things like: ``Associate \head{of what}''
+
+\begin{frontmatter}
+
+%this is the ``normal'' signature page from the original version of the class - the official copy of the thesis or dissertation does not contain signatures of committee members, so omit the signature page. The committee page is a necessary evil.
+%\signaturepage
+
+\begin{doublespace}
+\titlepage
+\end{doublespace}
+
+%this is the new committee page
+\committeepage
+
+\abstract
+
+Here is where the text of the Abstract goes.
+
+
+
+%% this is the end of the abstract
+
+%% after the abstract come the table of contents, the list of tables,
+%% and the list of figures
+%% Note about the figure list... so the figure list is a decent length,
+%% use the following command for the figure captions:
+%% \caption[Short figure title to appear in figure list]{Normal figure caption}
+%% (this trick unfortunately does not work with the deluxetable 
+%% ``\tablecaption'' command, so be careful what you put in the table captions)
+%%
+%% If you have really long tables that cover multiple pages, you
+%% will want to use the ``longtable'' environment (it is very similer to
+%% deluxetable) but allows you to specify headers and footers for the first,
+%% last, and middle pages of the figure.
+
+%% use this command to omit the list of tables,
+%% if the thesis doesn't contain any tables
+%\nolotables
+
+%% use this command to omit the list of figures,
+%% if the thesis doesn't contain any figures
+%\nolofigures
+
+\tables
+
+%% next come the acknowlegements (optional) and the preface (optional)
+
+\acknowledgments  % optional
+%\begin{center}{
+% To my family.} %, who have given much to see me this far, and to my wife, for putting up with me. 
+%\end{center}
+
+Here is where the acknowledgments go if you have any.
+
+
+%\preface    % optional
+
+\clearpage
+
+\vspace*{2.0truein}
+
+%\LARGE
+%\parbox{4.0truein}{
+%\par\noindent
+%Rome did not create a great empire by having meetings, they did it by
+%killing all who opposed them.\\
+%\hspace*{\fill}--Unknown
+%}
+%\normalsize
+%\vspace{30pt}
+%
+%\LARGE
+\parbox{4.0truein}{
+\par\noindent
+To steal ideas from one person is plagiarism;\\ to steal from many is research.\\
+\hspace*{\fill}--Unknown
+}
+%\normalsize
+\end{frontmatter}
+
+%% this is the end of the front matter
+
+
+
+
+
+
+%% now we include the actual chapters of the thesis
+%% there are individual chapter files ch-intr.tex, ch-over.tex, ...
+%% (NOTE: you do not need the ``.tex'' extention on the file name 
+%% in the include statement)
+%% these chapters can be in a sub-directory, for example: 
+%% \include{chapterdirectory/chaptername}
+%\include{intro}
+%\include{somechaper}
+%\include{someotherchapter}
+%\include{yetanotherchapter}
+%
+%
+\include{Chap1}
+\include{Chap2}
+%
+%
+%\include{Ithinkyougettheideachapter}
+%\begin{singlespace}
+%\include{conclusions}
+
+%% now we include the appendices
+\appendices
+%% omit this if there are no appendices
+
+%% if there is only one appendix, 
+%% say \singleappendix instead of \appendices
+% \singleappendix
+
+%% these are the actual commands to include the apendix files:
+
+%\include{appendix1}
+
+%\include{appendix2}
+
+
+
+%% finally comes the bibliography and vita
+%% the bibliography is generated automatically using BibTeX
+%% Note: in order to get the (author year) citation style, this example 
+%% includes a different *.bst style file than psuthesis.bst.  Sarah found 
+%% this style file on: http://www.ee.oulu.fi/~harza/latex/  
+%% This style includes the paper titles in the bibliography, so use it 
+%% if you want:
+%\bibliographystyle{/enter/path/to/ayphdthesis_mod}
+%% However, according to the grad school thesis guide (c.2004), there is no 
+%% special formating required for the bibliography, and to just follow 
+%% the citation styles of your field, in that case the ``apj'' style is 
+%% prefectly OK, so that is the one that is going to be included in this
+%% example file (use whichever style you prefer):
+\begin{singlespace}
+\bibliographystyle{apa}
+\end{singlespace}
+%% the following is the path to you *.bib file 
+%% (you do not need to enter the ``.bib'' extention)
+\bibliography{yourbib}
+%% ADS and Google Scholar can generate the entries in the bib file for you, just call up
+%% the abstract, then near the bottom of the abstract page there is a
+%% link to ``Bibtex entry for this abstract'' - just copy that into 
+%% your bib file.  Here is an example bibtex entry:
+%% @ARTICLE{citecode,
+%%    author = {{Smith}, J. and {Jones}, M.},
+%%     title = "{This Paper has some Really Cool Results}",
+%%   journal = {\aj},
+%%      year = 2002,
+%%     month = sep,
+%%    volume = 123,
+%%     pages = {1-20},
+%%    adsurl = {http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2002AJ....123.1S&amp;db_key=AST},
+%%   adsnote = {Provided by the NASA Astrophysics Data System}
+%% }
+%% NOTE: ADS returns the AASTeX code for the journal name, you'll either 
+%% have to change that by hand in each bib entry, or include a 
+%% definition of the codes in your ``definitions'' file so LaTeX doesn't 
+%% freak out.  Also, what I entered as ``citecode'' can be changed to 
+%% whatever you want to use in the citations in the document, i.e., for
+%% ``\citet{citecode}'' or ``\citep{citecode}''.
+
+
+%% the thesis must end with a Curriculum Vitae (**one page or less**)
+%% (this is Sarah's formatting, not sure how it compares to the other examples)
+\iftoggle{masters}{\clearpage}{
+\clearpage
+\begin{singlespace}
+\vita
+\Large
+\vspace*{-0.4truein}
+\centerline{{\bf Name}}
+
+\medskip
+
+\large
+\centerline{{\bf Education}}
+\normalsize
+
+\smallskip
+
+\par\noindent
+\textbf{\textit{The Pennsylvania State University}}\, State College, Pennsylvania\hfill 2011-Present
+
+\smallskip
+
+\par\noindent
+\hspace{0.10truein}  
+\parbox{6.15truein}{
+\par\noindent
+M.S. in Geosciences, expected in May 2014 }%\\ Area of Specialization: Planetary Atmospheres }
+
+\medskip
+
+\par\noindent
+\textbf{\textit{Undergrad University}}\, Somewhere, Pennsylvania\hfill 2007-2010
+
+\smallskip
+
+\par\noindent
+\hspace{0.10truein}  
+\parbox{6.15truein}{
+\par\noindent
+B.S. in Science, minor in Mathematics, \textit{magna cum laude} with distinction in Science
+}
+
+\medskip
+
+\large
+\centerline{{\bf Awards and Honors}}
+\normalsize
+
+\smallskip
+
+\par\noindent
+An Award \hfill 20XX\\
+Another Award \hfill 20XX\\
+Something Cool \hfill 20XX\\
+
+\medskip
+
+\large
+\centerline{{\bf Research Experience}}
+\normalsize
+
+%\smallskip
+
+%\par\noindent
+%\textbf{\textit{Doctoral Research}}\, The Pennsylvania State University\hfill199?--Present
+%\par\noindent
+%Thesis Advisor: Prof. Someone R. Other
+
+%\smallskip
+%
+%\par\noindent
+%\hspace{0.10truein}  
+%\parbox{5.7truein}{
+%\par\noindent
+%This research involved lots of cool stuff.
+%}
+
+\medskip
+
+\par\noindent
+\textbf{\textit{Graduate Research}}\, The Pennsylvania State University\hfill 2011--2013
+\par\noindent
+Research Advisor: Advisor
+
+\smallskip
+
+\par\noindent
+\hspace{0.10truein}  
+\parbox{5.7truein}{
+\par\noindent
+Research Title
+}
+
+\medskip
+
+\par\noindent
+\textbf{\textit{Undergraduate Research}}\, Undergrad University\hfill 20XX--20XX
+\par\noindent
+Research Advisor: Undergrad Advisor
+
+\smallskip
+
+\par\noindent
+\hspace{0.10truein}  
+\parbox{5.7truein}{
+\par\noindent
+Undergrad Research Title
+}
+
+\medskip
+
+\large
+\centerline{{\bf Teaching Experience}}
+\normalsize
+
+%\smallskip
+%
+%\par\noindent
+%\textbf{\textit{Guest Lecturer}}\, The Pennsylvania State University\hfill 199?--Present
+%
+%\smallskip
+%
+%\par\noindent
+%\hspace{0.10truein}  
+%\parbox{5.7truein}{
+%\par\noindent
+%I taught lectures which involved doing cool stuff.
+%}
+
+\medskip
+
+\par\noindent
+\textbf{\textit{Teaching Assistant}}\, The Pennsylvania State University\hfill Spring 20XX
+
+\smallskip
+
+\par\noindent
+\hspace{0.10truein}  
+\parbox{5.7truein}{
+\par\noindent
+Lab instructor for some class.
+}
+
+\medskip
+
+\par\noindent
+\textbf{\textit{Tutor}}\, Undergrad University\hfill 20XX-20XX
+
+\smallskip
+
+\par\noindent
+\hspace{0.10truein}  
+\parbox{5.7truein}{
+\par\noindent
+Individual tutor for students involved in undergraduate courses.
+}
+\end{singlespace}
+}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
