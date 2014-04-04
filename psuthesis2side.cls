@@ -1474,13 +1474,13 @@ minus3pt\let\@listi\@listI}%
    \vbox to \vsize{\vss\vss
     \centerline{The Pennsylvania State University}
     \centerline{The Graduate School}
-    \centerline{Department of \@dept}
+    \centerline{\@dept}
     \vss\vss\vss
 %    \begingroup\Large\begin{center}{\@title}\end{center}\endgroup
     \begingroup\normalfont\Large\begin{center}{\@title}\end{center}\endgroup
     \vss\vss\vss
     \centerline{A Thesis in}
-    \centerline{\@dept}
+    \centerline{\@major}
     \centerline{by}
     \centerline{\@author}
     \vskip0.1in plus 0.1in minus 0.1in
@@ -1543,7 +1543,8 @@ minus3pt\let\@listi\@listI}%
 
 \def\committeepage{
 \vbox{
-    \thispagestyle{empty}
+    \newpage%\thispagestyle{empty}
+   \setcounter{page}{2}
     \begin{singlespace}
     \hbox{\hbox{The \iftoggle{masters}{thesis}{dissertation} of \@author\ was reviewed and approved$^{*}$ by the following:} } %\footnotemark\ replaced with '*' per format review
 %    \vskip 0.35in 
