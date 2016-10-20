@@ -195,8 +195,65 @@ possible.  After the picks are obtained, the mechanical quantities of interest
 must be extracted.  Some values, such as changes in peak friction, are trivial
 to compute.  However, loading stiffness is slightly more complicated, and
 requires determining where the load-displacement curve deviates from linearity.
-We address this problem by using a goodness-of-fit approach, detailed in
-Appendix A.
+We address this problem by using a goodness-of-fit approach, detailed below.
+
+\section{Algorithm Description}
+
+We define stick-slip by a stress increase over some time interval and a sudden
+drop in stress, followed by another event.  There are many techniques in the
+literature of `change point detection' such as CUSUM \cite{page1954continuous},
+Student's T test techniques \cite{buishand1982some}, and wavelet methods
+\cite{raimondo2004peaks}.  These techniques are generally used for step
+detection and are not the ideal candidates for repetitive events such as
+repeating frictional slip.  Picking based on derivatives is a more robust
+technique, and therefore we employ a first-derivative based approach.  When the
+stress is at a peak or trough, the first derivative (with time or shear
+displacement) is zero by definition.  We examine the derivative of shear stress
+for a sign change or zero crossing as it is unlikely that we will exactly
+capture the data points for which the derivative is zero to machine precision.
+
+Taking the derivative of noisy, digital lab data can be challenging.  In
+general, for an analytic function or data with no noise, we would approach the
+problem by using a forward, central, or backward difference approximation.
+These simplistic techniques work for well-behaved functions with no noise, but
+for lab data, a running average slope works better. Our method involves a
+user-defined window size over which a least-squares approach is used.  This
+resulting running average slope technique is robust for noisy data.
+
+To determine loading stiffness of each stick-slip event, we began with the
+derivative of the stress-displacement curve (Fig.\ref{fig:stickslip}). We then
+computed an array of signs for the complete data set. Sign change detection
+identifies the zero-crossings of the running average slope derivative.  Pairs of
+zero crossings are evaluated for their associated stress drop, with anything
+below a user defined threshold discarded.  This step is necessary to further
+filter noise and smaller failures.  Using the zero crossing generally captures
+the true maximum and minimum of the data, but occasionally, due to smoothing of
+noise, may not capture the exact maximum or minimum.  After observing the
+algorithm on many datasets, we found that max/min errors were always small and
+within the noise; therefore we did not implement a local search around the zero
+crossing.
+
+The objective when determining the linear-elastic stiffness of each stick-slip
+is to fit a line to the displacement versus shear stress data, but only to the
+portion before inelastic deformation and creep begins.  In the past this has
+been done by eye and resulted in limited estimates of stiffness for each
+experiment as well as inconsistency between picks.  To automate this process, we
+calculate the correlation coefficient of the data (eq.\ref{eq:correlation}) for
+many data windows.  The algorithm begins with the minimum shear stress for an
+event with $n$ data, determined by the derivative technique, and calculates the
+correlation of three data points (the trough and the two following points).
+Next, the correlation is calculated for additional data points, up to
+$n_\text{max}$.  We assume that the deviation from linearity begins after the
+correlation is maximized.  After we define the linear domain, a line is fit to
+that data segment using a least squares method.  This process is repeated for
+each stick-slip/slow-slip event.
+
+%% Equation %%
+\begin{equation}
+	r_{xy}= \frac{\displaystyle\sum\limits_{i=1}^n x_i y_i - \displaystyle\sum\limits_{i=1}^n x_i \displaystyle\sum\limits_{i=1}^n y_i}{\sqrt{n \displaystyle\sum\limits_{i=1}^n x_i^2 - \left(\displaystyle\sum\limits_{i=1}^n x_i\right)^2} \sqrt{n \displaystyle\sum\limits_{i=1}^n y_i^2 - \left(\displaystyle\sum\limits_{i=1}^n y_i \right)^2}}
+	\label{eq:correlation}
+\end{equation}
+%% End Equation %%
 
 
 \section{Results}
@@ -383,173 +440,122 @@ coupling. Work is also underway to measure strain energy stored in the system
 before, during, and after failure to attempt to quantify some of the possible
 explanations proposed in this work.
 
-\section{Appendix A - Algorithm Description}
-
-We define stick-slip by a stress increase over some time interval and a sudden
-drop in stress, followed by another event.  There are many techniques in the
-literature of `change point detection' such as CUSUM \cite{page1954continuous},
-Student's T test techniques \cite{buishand1982some}, and wavelet methods
-\cite{raimondo2004peaks}.  These techniques are generally used for step
-detection and are not the ideal candidates for repetitive events such as
-repeating frictional slip.  Picking based on derivatives is a more robust
-technique, and therefore we employ a first-derivative based approach.  When the
-stress is at a peak or trough, the first derivative (with time or shear
-displacement) is zero by definition.  We examine the derivative of shear stress
-for a sign change or zero crossing as it is unlikely that we will exactly
-capture the data points for which the derivative is zero to machine precision.
-
-Taking the derivative of noisy, digital lab data can be challenging.  In
-general, for an analytic function or data with no noise, we would approach the
-problem by using a forward, central, or backward difference approximation.
-These simplistic techniques work for well-behaved functions with no noise, but
-for lab data, a running average slope works better. Our method involves a
-user-defined window size over which a least-squares approach is used.  This
-resulting running average slope technique is robust for noisy data.
-
-To determine loading stiffness of each stick-slip event, we began with the
-derivative of the stress-displacement curve (Fig.\ref{fig:stickslip}). We then
-computed an array of signs for the complete data set. Sign change detection
-identifies the zero-crossings of the running average slope derivative.  Pairs of
-zero crossings are evaluated for their associated stress drop, with anything
-below a user defined threshold discarded.  This step is necessary to further
-filter noise and smaller failures.  Using the zero crossing generally captures
-the true maximum and minimum of the data, but occasionally, due to smoothing of
-noise, may not capture the exact maximum or minimum.  After observing the
-algorithm on many datasets, we found that max/min errors were always small and
-within the noise; therefore we did not implement a local search around the zero
-crossing.
-
-The objective when determining the linear-elastic stiffness of each stick-slip
-is to fit a line to the displacement versus shear stress data, but only to the
-portion before inelastic deformation and creep begins.  In the past this has
-been done by eye and resulted in limited estimates of stiffness for each
-experiment as well as inconsistency between picks.  To automate this process, we
-calculate the correlation coefficient of the data (eq.\ref{eq:correlation}) for
-many data windows.  The algorithm begins with the minimum shear stress for an
-event with $n$ data, determined by the derivative technique, and calculates the
-correlation of three data points (the trough and the two following points).
-Next, the correlation is calculated for additional data points, up to
-$n_\text{max}$.  We assume that the deviation from linearity begins after the
-correlation is maximized.  After we define the linear domain, a line is fit to
-that data segment using a least squares method.  This process is repeated for
-each stick-slip/slow-slip event.
-
-%% Equation %%
-\begin{equation}
-	r_{xy}= \frac{\displaystyle\sum\limits_{i=1}^n x_i y_i - \displaystyle\sum\limits_{i=1}^n x_i \displaystyle\sum\limits_{i=1}^n y_i}{\sqrt{n \displaystyle\sum\limits_{i=1}^n x_i^2 - \left(\displaystyle\sum\limits_{i=1}^n x_i\right)^2} \sqrt{n \displaystyle\sum\limits_{i=1}^n y_i^2 - \left(\displaystyle\sum\limits_{i=1}^n y_i \right)^2}}
-	\label{eq:correlation}
-\end{equation}
-%% End Equation %%
-
-
-
-\begin{figure}
+\begin{figure}[t!]
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig1.pdf}
 \caption{\label{fig:tests}
 Experimental data showing examples of tests used to measure rate-and-state frictional parameters. (A) velocity step test in which loading velocity is changed from 150 $\mathrm{\mu}$m/s to 500 $\mathrm{\mu}$m/s. Note transient evolution of friction followed by attainment of a new steady-state. (B) results for four slide-hold-slide tests in which shearing velocity is set to zero for a period (the hold) before re-shearing, showing holds of 30, 100, 300, and 1000 seconds. Frictional healing ({}$\mu$) increases with the logarithm of hold time.}
+\end{centering}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[t!]
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig2.pdf}
 \label{fig:biax}
 \caption{The biaxial press with supporting and forcing blocks in place.  Double-direct shear samples consist of three blocks: two side blocks and a center block.  Gouge layers are between the forcing blocks and confined with side-shields and a rubber membrane. (After \cite{Leeman_2014})}
+\end{centering}
 \end{figure}
 
-\begin{figure}
-\begin{center}
+\clearpage
+
+\begin{figure}[t!]
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig3.pdf}
 \caption{\label{fig:flour_sem}
 A scanning electron micrograph of undeformed baking flour.  Grain sizes are observed to vary in the 10-200 $\mu m$ range.  The material has a platy appearance reminiscent of clay and other phyllosilicate minerals.}
-\end{center}
+\end{centering}
 \end{figure}
 
+\clearpage
 
-\begin{figure}
-\begin{center}
+\begin{figure}[t!]
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig4.pdf}
 \caption{\label{fig:stickslip}
 Slow-slip and stick-slip events can be characterized by their slip duration, recurrence time, stress drop, and elastic loading stiffness.  These quantities can be used to quantify the effective system stiffness and frictional properties including the rate of restrengthening (healing).    }
-\end{center}
+\end{centering}
 \end{figure}
 
 
 
 \begin{figure}
-\begin{center}
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig5.pdf}
 \caption{\label{fig:comp_runplots}
 Data for three experiments with different forcing blocks and effective system stiffnesses.  The acrylic only and steel-acrylic experiments exhibited slow stick-slip behavior, while steel forcing blocks produced only stable sliding.}
-\end{center}
+\end{centering}
 \end{figure}
 
 
 
 \begin{figure}
-\begin{center}
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig6.pdf}
 \caption{\label{fig:healing_p4112}
 (A) Friction data during slide-hold-slide tests over an entire experiment with steel forcing blocks. Note initial load-up: there is a region of peak strength followed by weakening and the attainment of steady-state strength after shear of $\sim$ 10 mm.  This test included three sets of holds lasting from 3 to 1000 seconds. (B) Friction parameter $\Delta \mu$ vs. the log of hold time for the slide-hold-slide tests shown in panel A.  Healing exhibits log-linear behavior, independent of net shear displacement. }
-\end{center}
+\end{centering}
 \end{figure}
 
 \begin{figure}
-\begin{center}
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig7.pdf}
 \caption{\label{fig:healing_p4113}
 (A) Friction data for experiment p4113 with steel loading blocks, and (B) healing determined from slide-hold-slide tests. The sample exhibited limited stick-slip/slow-slip behavior, but only at a load point velocity of 5 $\mu m/s$.  Frictional instability appears as a wide band of noise at the scale shown, around 10 and 40 mm load point displacement. Holds ranged from 3 to 1000 seconds and velocity steps from 5 to 1500 $\mu m/s$.}
-\end{center}
+\end{centering}
 \end{figure}
 
 
 
 \begin{figure}
-\begin{center}
-\includegraphics{chap_granular_stiffness/Fig8.pdf}
+\begin{centering}
+\includegraphics[scale=0.8]{chap_granular_stiffness/Fig8.pdf}
 \caption{\label{fig:model_fits}
 Velocity steps in an all steel forcing block configuration can only be fit by a two state variable model.  A) 15 - 50 $\mu m/s$ B) 50 - 150 $\mu m/s$ C) 150 - 500 $\mu m/s$}
-\end{center}
+\end{centering}
 \end{figure}
 
 
-\begin{figure*}
-\begin{center}
-\includegraphics{chap_granular_stiffness/Fig9.pdf}
+\begin{figure}
+\begin{centering}
+\includegraphics[scale=0.8]{chap_granular_stiffness/Fig9.pdf}
 \caption{\label{fig:p3919_picks}
 (A) Stiffness and (B) Stress drop and slip duration for events in experiments with all acrylic forcing blocks.  Stiffness increases on the rise to steady state by a factor of nearly two and remains remarkably constant. Stress drops rapidly increase by a factor of two over the first twenty events before reaching a steady state.  Slip duration begins at nearly twenty-five seconds, then rapidly decreases to around five seconds.}
-\end{center}
-\end{figure*}
+\end{centering}
+\end{figure}
 
-\begin{figure*}
-\begin{center}
-\includegraphics{chap_granular_stiffness/Fig10.pdf}
-\caption{\label{fig:p4074_picks}
-(A) Stiffness and (B) Stress drop and slip duration for events in the steel/acrylic forcing block system. Stiffness follows a similar trend to the all-acrylic experiment, but exhibits a smaller increase with strain. Stress drop increases rapidly, but then returns and maintains its initial level until a second family of events occurs around events 80-120.  Slip duration begins faster than for the all-acrylic blocks and stays lower with more scatter.  }
-\end{center}
-\end{figure*}
+\clearpage
 
 \begin{figure}
-\begin{center}
+\begin{centering}
+\includegraphics[scale=0.8]{chap_granular_stiffness/Fig10.pdf}
+\caption{\label{fig:p4074_picks}
+(A) Stiffness and (B) Stress drop and slip duration for events in the steel/acrylic forcing block system. Stiffness follows a similar trend to the all-acrylic experiment, but exhibits a smaller increase with strain. Stress drop increases rapidly, but then returns and maintains its initial level until a second family of events occurs around events 80-120.  Slip duration begins faster than for the all-acrylic blocks and stays lower with more scatter.  }
+\end{centering}
+\end{figure}
+
+\begin{figure}
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig11.pdf}
 \caption{\label{fig:double_ss}
 Two groups of stick-slip events are evident after sufficient shearing in the steel/acrylic system.  At the expected shear failure point there are several small failures, but the layer recovers and continues to load to a higher stress before failure.}
-\end{center}
+\end{centering}
 \end{figure}
 
 
-
-
 \begin{figure}
-\begin{center}
+\begin{centering}
 \includegraphics{chap_granular_stiffness/Fig12.pdf}
 \caption{\label{fig:transition}
 Response of the system with various effective stiffnesses.  The stability
 boundary is crossed between the steel and steel/acrylic system.  Stiffnesses
 shown are the initial load up stiffnesses of the sample.  All data are from the
 same displacement range, but have been offset in shear stress for clarity. }
-\end{center}
+\end{centering}
 \end{figure}
 
-\begin{table*}
+\clearpage
+
+\begin{table}
 \begin{center}
 \begin{tabular}{cccccccc}
 $V_0$ & $V$ & $a$ & $b_1$ & $D_{c_1}$ & $b_2$ & $D_{c_2}$ & $a-b$ \\
@@ -563,9 +569,12 @@ $V_0$ & $V$ & $a$ & $b_1$ & $D_{c_1}$ & $b_2$ & $D_{c_2}$ & $a-b$ \\
 \end{center}
 \caption{Two state variable parameters obtained from friction data inversion with all steel forcing blocks (p4113).}
 \label{rsf_params}
-\end{table*}
+\end{table}
 
-\begin{table*}
+\clearpage
+
+\begin{landscape}
+\begin{table}
 \begin{tabular}{cccccc}
 
 Experiment & Blocks & Layer Thickness (mm) & Temperature (C) & Relative Humidity (\%) & Loading Stiffness (MPa/$\mu$m) \\
@@ -584,5 +593,5 @@ p4113 & Steel & 8 & 24.3 & 56.1 & 0.001070  \\
 \end{tabular}
 	\caption{Load up stiffnesses during run-in for different forcing block configurations.  Note that the steel/acrylic combination is much closer to the stiffness of all steel blocks than that of all acrylic blocks.}
 	\label{load_stiffness}
-\end{table*}
-
+\end{table}
+\end{landscape}
