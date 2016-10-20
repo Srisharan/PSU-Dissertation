@@ -23,12 +23,11 @@
 \usepackage{amsmath,amssymb}
 %% allows bibtex, \citet{}, \citep{} referencing:
 \usepackage[square]{natbib}
-\usepackage{lipsum}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{longtable}
 \usepackage{pdflscape}
-%%Comment out the above package when you add your own chapters. Unless you want Lorem Ipsum.
+
 %%\usepackage[table]{xcolor}
 %% I truthfully don't know what the following is for, but I never used it:
 %\citestyle{aa}
@@ -36,16 +35,6 @@
 %\usepackage{psfig,graphics} 
 %% the following allows you to use the AAS deluxetable environment:
 %\usepackage{deluxetable}
-%% Use the following if you have tables that are longer than a single page::
-%\usepackage{longtable}
-%% Use the following if you have (non-deluxetables, i.e., longtables) that
-%% you need to display landscape oriented:
-%\usepackage{lscape}
-
-%% for a less-than-final version of the thesis, this command
-%% places "DRAFT: <date> AT <time>" at the top of each page...
-%\thesisdraft    
-%% (comment this out for the final version)
 
 %% you can speed things up by compiling only one chapter at a time
 %\includeonly{somechapter}
@@ -88,13 +77,6 @@
 
 \begin{document}
 
-%%Comment this out for the final thesis:
-
-%%
-
-%% at the beginning of the thesis we have a title page, a signature
-%% page, and an abstract
-
 \author{John R. Leeman}
 
 
@@ -136,18 +118,6 @@
 \readerfive{Derek Elsworth  \\
 	  \prof{Energy and Mineral Engineering}
 } 
-%             Associate \head{Graduate Programs}}
-%
-%\end{singlespace}
-%\readerfive{Evan Pugh Prof.\ Member4 \\
-%             Evan Pugh \prof{Astronomy and Astrophysics}}
-%
-%\readersix{Assistant Prof.\ Member5 \\
-%             \assistprof{Astronomy and Astrophysics}}
-%
-%\readerseven{Lee R. Kump \\
-%             \prof{Geosciences}\\
-%             \head{Geosciences}}
 
 %%   Key to titles:
 %% Associate Professor: \asocprof{of what}
@@ -189,14 +159,6 @@ Here is where the text of the Abstract goes.
 %% deluxetable) but allows you to specify headers and footers for the first,
 %% last, and middle pages of the figure.
 
-%% use this command to omit the list of tables,
-%% if the thesis doesn't contain any tables
-%\nolotables
-
-%% use this command to omit the list of figures,
-%% if the thesis doesn't contain any figures
-%\nolofigures
-
 \tables
 
 %% next come the acknowlegements (optional) and the preface (optional)
@@ -215,17 +177,6 @@ I am forever indebted to my parents, Russell and Dianne Leeman for encouraging m
 
 \vspace*{2.0truein}
 
-%\LARGE
-%\parbox{4.0truein}{
-%\par\noindent
-%Rome did not create a great empire by having meetings, they did it by
-%killing all who opposed them.\\
-%\hspace*{\fill}--Unknown
-%}
-%\normalsize
-%\vspace{30pt}
-%
-%\LARGE
 \parbox{4.0truein}{
 \par\noindent
 Somewhere, something incredible is waiting to be known.\\
@@ -253,7 +204,6 @@ Stands at the sea . . . wonders at wondering . . . I . . . a universe of atoms .
 %% \include{chapterdirectory/chaptername}
 \addcontentsline{toc}{chapter}{Introduction}  
 \include{intro}
-
 \include{chap_granular_stiffness/Chap_granular_stiffness}
 \include{chap_lab_slow_eq/Chap_lab_slow_eq}
 \include{chap_slow_slip_details/Chap_slow_slip_details}
@@ -265,30 +215,14 @@ Stands at the sea . . . wonders at wondering . . . I . . . a universe of atoms .
 
 %% now we include the appendices
 \appendices
-%% omit this if there are no appendices
 
-%% if there is only one appendix, 
-%% say \singleappendix instead of \appendices
-% \singleappendix
-
-%% these are the actual commands to include the apendix files:
 \include{appendix_biax_experiments/appendix_biax_experiments}
-  
 \include{appendix_triax_experiments/appendix_triax_experiments}
-
 \include{appendix_sample_prep/appendix_sample_prep}
-
 \include{appendix_load_response/appendix_load_response}
-
 \include{appendix_load_calibration/appendix_load_calibration}
-
 \include{appendix_dcdt_calibration/appendix_dcdt_calibration}
-
 \include{appendix_look_format/appendix_look_format}
-
-%\include{appendix2}
-
-
 
 %% finally comes the bibliography and vita
 %% the bibliography is generated automatically using BibTeX
@@ -308,7 +242,7 @@ Stands at the sea . . . wonders at wondering . . . I . . . a universe of atoms .
 \end{singlespace}
 %% the following is the path to you *.bib file 
 %% (you do not need to enter the ``.bib'' extention)
-\bibliography{yourbib}
+\bibliography{leeman_refs}
 %% ADS and Google Scholar can generate the entries in the bib file for you, just call up
 %% the abstract, then near the bottom of the abstract page there is a
 %% link to ``Bibtex entry for this abstract'' - just copy that into 
