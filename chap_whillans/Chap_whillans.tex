@@ -96,6 +96,92 @@ Our laboratory measurements and modeling provide a unique set of data and verifi
 
 \section{Effective Medium Model Formulation}
 
+Bulk modulus ($K$), shear modulus ($G$), and Poisson?s ratio($\nu$) of the solid matrix material are calculated as simple weighted averages upon the percent composition ($f_i$) of each mineral (eq. \ref{EM_K, EM_G, EM_v}). 
+
+% Equation %
+\begin{equation}
+	K = \frac{1}{2}\left[\sum_{i=1}^{m} f_i K_i + \left(\sum_{i=1}^{m}\frac{f_i}{K_i}\right)^{-1}\right]
+	\label{EM_K}
+\end{equation}
+% End Equation %
+
+% Equation %
+\begin{equation}
+	G = \frac{1}{2}\left[\sum_{i=1}^{m} f_i G_i + \left(\sum_{i=1}^{m}\frac{f_i}{G_i}\right)^{-1}\right]
+	\label{EM_G}
+\end{equation}
+% End Equation %
+
+% Equation %
+\begin{equation}
+	\nu = \frac{1}{2}\left[\sum_{i=1}^{m} f_i \nu_i + \left(\sum_{i=1}^{m}\frac{f_i}{\nu_i}\right)^{-1}\right]
+	\label{EM_v}
+\end{equation}
+% End Equation %
+
+
+Assuming the average number of grain contacts of each matrix of the particle ($n$) and a critical porosity ($\phi_c$), the effective bulk ($K_{\text{HM}}$) and shear ($K_{\text{HM}}$) moduli are then computed (eq. \ref{EM_KHM, EM_GHM}).
+
+
+% Equation %
+\begin{equation}
+	K_{\text{HM}} = \left(P \frac{n^2(1-\phi_c)G^2}{18 \pi^2(1-\nu)^2}\right)^{\frac{1}{3}}
+	\label{EM_KHM}
+\end{equation}
+% End Equation %
+
+% Equation %
+\begin{equation}
+	G_{\text{HM}} = \frac{5-4\nu}{5(2-\nu)} \left(P \frac{3n^2(1-\phi_c)G^2}{2 \pi^2(1-\nu)^2}\right)^{\frac{1}{3}}
+	\label{EM_GHM}
+\end{equation}
+% End Equation %
+
+The effective dry bulk ($K_{\text{Dry}}$)  and shear ($G_{\text{Dry}}$)  moduli of the solid framework at an arbitrary porosity ($\phi$) are then calculated as:
+
+% Equation %
+\begin{equation}
+	K_{\text{Dry}} = \left( \frac{\frac{1-\phi}{1-\phi_c}}{K_\text{HM}+\frac{4G_\text{HM}}{3}} + \frac{\frac{\phi-\phi_c}{1-\phi_c}}{\frac{4G_\text{HM}}{3}}\right)^{-1} - \frac{4}{3}G_\text{HM}
+	label{EM_Kdry}
+\end{equation}
+% End Equation %
+
+% Equation %
+\begin{equation}
+        E=MC^2
+	\label{EM_Gdry}
+\end{equation}
+% End Equation %
+
+
+The saturated media bulk () and shear () moduli are calculated as:
+
+
+(8)
+
+
+
+(9)
+
+The compressional () and shear () wave velocities are finally calculated from the saturated moduli as: 
+
+
+
+(10)
+
+
+
+(11)
+
+
+
+
+
+
+
+
+
+
 % Figure %
 \begin{figure}
 	\centering
