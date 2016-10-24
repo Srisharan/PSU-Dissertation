@@ -142,45 +142,49 @@ The effective dry bulk ($K_{\text{Dry}}$)  and shear ($G_{\text{Dry}}$)  moduli 
 % Equation %
 \begin{equation}
 	K_{\text{Dry}} = \left( \frac{\frac{1-\phi}{1-\phi_c}}{K_\text{HM}+\frac{4G_\text{HM}}{3}} + \frac{\frac{\phi-\phi_c}{1-\phi_c}}{\frac{4G_\text{HM}}{3}}\right)^{-1} - \frac{4}{3}G_\text{HM}
-	label{EM_Kdry}
+	\label{EM_Kdry}
 \end{equation}
 % End Equation %
 
 % Equation %
 \begin{equation}
-        E=MC^2
+        G_\text{Dry} = \left( \frac{\frac{1-\phi}{1-\phi_\text{c}}}{G_\text{HM} + \frac{G_\text{HM}}{6} \left(\frac{9K_\text{HM}+8G_\text{HM}}{K_\text{HM}+2G_\text{HM}}\right)} + \frac{\frac{\phi-\phi_\text{c}}{1-\phi_\text{c}}}{\frac{G_\text{HM}}{6} \left( \frac{9K_\text{HM}+8G_\text{HM}}{K_\text{HM}+2G_\text{HM}} \right)} \right)^{-1} - \frac{G_\text{HM}}{6} \left(\frac{9K_\text{HM}+8G_\text{HM}}{K_\text{HM}+2G_\text{HM}}\right)
 	\label{EM_Gdry}
 \end{equation}
 % End Equation %
 
 
-The saturated media bulk () and shear () moduli are calculated as:
+The saturated media bulk $(K_\text{sat})$ and shear $(G_\text{sat})$ moduli are calculated as:
 
 
-(8)
+% Equation %
+\begin{equation}
+	K_\text{sat} = \frac{K \left( \phi K_\text{dry} - \frac{(1+\phi)K_f K_\text{Dry}}{K} + K_f \right)}{(1-\phi)K_f+\phi K - \frac{K_f K_\text{Dry}}{K}}
+	\label{EM_Ksat}
+\end{equation}
+% End Equation %
 
+% Equation %
+\begin{equation}
+	G_\text{sat} = G_\text{dry}
+	\label{EM_Gsat}
+\end{equation}
+% End Equation %
 
+The compressional $(V_\text{p})$ and shear $(V_\text{s})$ wave velocities are finally calculated from the saturated moduli as: 
+% Equation %
+\begin{equation}
+	V_\text{p} = \sqrt{\frac{K_\text{sat}+\frac{4G_\text{sat}}{3}}{\rho_\text{b}}}
+	\label{EM_Vp}
+\end{equation}
+% End Equation %
 
-(9)
-
-The compressional () and shear () wave velocities are finally calculated from the saturated moduli as: 
-
-
-
-(10)
-
-
-
-(11)
-
-
-
-
-
-
-
-
-
+% Equation %
+\begin{equation}
+	V_\text{s} = \sqrt{\frac{G_\text{sat}}{\rho_\text{b}}}
+	\label{EM_Vs}
+\end{equation}
+% End Equation %
 
 % Figure %
 \begin{figure}
