@@ -20,6 +20,7 @@
 % For Pennsylvania State University doctoral theses.  This document style is
 % per the Office of Theses and Graduate School Publications' "Thesis Guide"
 % dated July 1990.
+% Updated by John Leeman to change "thesis" to "dissertation" based on Sonny's toggle
 % Updated by Sonny Harman to be compatible with the Office of Graduate Studies'
 % format review, 05/2013. Added masters/PhD toggle for useability.
 % This is by no means my own work, but built on the hard work of the people listed below.
@@ -1387,8 +1388,8 @@ minus3pt\let\@listi\@listI}%
 \def\@submitdate{}
 \def\@copyrightyear{}
 
-\def\adviser{Thesis Adviser}
-\def\coadviser{Thesis Co-Adviser}
+\def\adviser{\iftoggle{masters}{Thesis Advisor}{Dissertation Advisor}}
+\def\coadviser{\iftoggle{masters}{Thesis Advisor}{Dissertation Advisor} Co-Adviser}
 \def\chair{Chair of Committee}
 \def\cochair{Co-Chair of Committee}
 \def\head#1{Head of the Department of #1}
@@ -1432,7 +1433,7 @@ minus3pt\let\@listi\@listI}%
 %    \begingroup\Large\begin{center}{\@title}\end{center}\endgroup
     \begingroup\normalfont\Large\begin{center}{\@title}\end{center}\endgroup
     \vss\vss\vss
-    \centerline{A Thesis in}
+    \centerline{A \iftoggle{masters}{Thesis}{Dissertation} in}
     \centerline{\@major}
     \centerline{by}
     \centerline{\@author}
